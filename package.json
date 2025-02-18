@@ -1,0 +1,96 @@
+{
+  "name": "auto-build-web-sll",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Duy",
+  "main": "dist/electron/main.js",
+  "scripts": {
+    "watch": "tsc",
+    "start": "tsc && concurrently vite \"nodemon --exec  electron .\" \"tsc -w\"",
+    "start-test": "concurrently vite \"electron .\"",
+    "vite:build": "vite build",
+    "build": "vite build && electron-builder --win --x64",
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/"
+  },
+  "build": {
+    "productName": "Tool Build Web SLL",
+    "appId": "autoBuildWeb",
+    "copyright": "Duy",
+    "asar": true,
+    "directories": {
+      "buildResources": "assets",
+      "output": "release"
+    },
+    "files": [
+      "dist"
+    ],
+    "mac": {
+      "artifactName": "${productName}_${version}.${ext}",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "icon": "./src/assets/logo.ico",
+      "requestedExecutionLevel": "highestAvailable",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}_${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false,
+      "allowElevation": true,
+      "installerIcon": "./src/assets/logo.png",
+      "uninstallerIcon": "./src/assets/logo.png",
+      "installerHeaderIcon": "./src/assets/logo.png",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "license": "./LICENSE",
+      "shortcutName": "Build Web SLL"
+    },
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "http://app.3ae.lol:3010/update/"
+      }
+    ]
+  },
+  "dependencies": {
+    "element-plus": "^2.9.4",
+    "pinia": "^2.3.1",
+    "sass": "^1.84.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node22": "^22.0.0",
+    "@types/node": "^22.13.1",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/eslint-config-prettier": "^10.1.0",
+    "@vue/eslint-config-typescript": "^14.3.0",
+    "@vue/tsconfig": "^0.7.0",
+    "concurrently": "^9.1.2",
+    "electron": "^34.1.1",
+    "electron-builder": "^25.1.8",
+    "eslint": "^9.18.0",
+    "eslint-plugin-vue": "^9.32.0",
+    "jiti": "^2.4.2",
+    "npm-run-all2": "^7.0.2",
+    "prettier": "^3.4.2",
+    "typescript": "~5.7.3",
+    "vite": "^6.0.11",
+    "vite-plugin-vue-devtools": "^7.7.1",
+    "vue-i18n": "^11.1.0",
+    "vue-tsc": "^2.2.0"
+  }
+}
