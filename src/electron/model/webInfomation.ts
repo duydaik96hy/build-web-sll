@@ -31,10 +31,10 @@ export interface IWebInfomation {
   logo: string
   homePageSeoInfo: IWebSeoInfo
   listPageSeoInfo: IWebSeoInfo
-  detailPageSeoInfo: IWebSeoInfo
   contact: {
     phone: string
     email: string
+    companyName?: string
   }
   proxy: IProxy
 }

@@ -6,7 +6,7 @@
   "main": "dist/electron/main.js",
   "scripts": {
     "watch": "tsc",
-    "start": "tsc && concurrently vite \"nodemon --exec  electron .\" \"tsc -w\"",
+    "start": "concurrently vite \"nodemon --exec  electron .",
     "start-test": "concurrently vite \"electron .\"",
     "vite:build": "vite build",
     "build": "vite build && electron-builder --win --x64",
@@ -68,6 +68,9 @@
   "dependencies": {
     "element-plus": "^2.9.4",
     "pinia": "^2.3.1",
+    "puppeteer": "^24.3.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "sass": "^1.84.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"

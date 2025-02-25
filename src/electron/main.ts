@@ -1,10 +1,7 @@
 import { join } from 'path'
-import { app, BrowserWindow, ipcMain, screen } from 'electron'
+import { app, BrowserWindow, screen } from 'electron'
 
 const isDev = !app.isPackaged
-
-console.log(__dirname)
-console.log(join(__dirname, './../../../src/assets/logo.png'))
 
 function createWindow() {
   const mainWindow = new BrowserWindow({

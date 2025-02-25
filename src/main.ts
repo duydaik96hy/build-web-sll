@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import ElementPlus from 'element-plus'
+import ElementPlus, { ElNotification } from 'element-plus'
 import 'element-plus/dist/index.css'
 
 import App from './App.vue'
@@ -11,6 +11,26 @@ const app = createApp(App)
 
 app.config.globalProperties.$toPage = (path: string) => {
   router.push({ path })
+}
+
+export enum INotificationType {
+  success = 'success',
+  error = 'error',
+  warning = 'warning',
+}
+
+app.config.globalProperties.$notification = (type: INotificationType, message: string) => {
+  ElNotification[type]({
+    message,
+    showClose: true,
+    duration: 3000,
+    customClass:
+      type == INotificationType.success
+        ? 'success-notify'
+        : type == INotificationType.error
+          ? 'error-notify'
+          : 'warning-notify',
+  })
 }
 
 app.use(createPinia())

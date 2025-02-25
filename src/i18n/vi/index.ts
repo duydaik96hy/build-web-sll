@@ -17,4 +17,11 @@ export default {
   delete: 'Xóa',
   noData: 'Không có dữ liệu',
   addNewWeb: 'Thêm Web mới',
+  ipList: 'Danh sách IP',
+  typeIpListPlease: 'Vui lòng nhập danh sách IP',
+  addIp: 'Thêm Ip',
+  contentName: 'Tên nội dung',
+  contentLink: 'Link đến',
+  hostName: 'Tên miền',
+  logo: 'Logo',
 }

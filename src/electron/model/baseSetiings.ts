@@ -5,4 +5,5 @@ export interface IBaseSettings {
     password: string
     ipList: Array<string>
   }
+  themeList: Array<string>
 }
