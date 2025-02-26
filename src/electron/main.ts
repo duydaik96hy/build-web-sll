@@ -1,7 +1,11 @@
-import { join } from 'path'
+import { join, resolve } from 'path'
 import { app, BrowserWindow, screen } from 'electron'
+import { existsSync, mkdirSync } from 'fs'
 
 const isDev = !app.isPackaged
+const defaultDir = app.isPackaged
+  ? app.getPath('userData')
+  : resolve(process.cwd(), './src/electron/data')
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -20,6 +24,18 @@ function createWindow() {
   } else {
     mainWindow.loadFile(join(__dirname, '../../index.html'))
   }
+}
+
+if (!existsSync(join(defaultDir, 'config'))) {
+  mkdirSync(join(defaultDir, 'config'))
+}
+
+if (!existsSync(join(defaultDir, 'themes'))) {
+  mkdirSync(join(defaultDir, 'themes'))
+}
+
+if (!existsSync(join(defaultDir, 'chrome'))) {
+  mkdirSync(join(defaultDir, 'chrome'))
 }
 
 app.whenReady().then(() => {

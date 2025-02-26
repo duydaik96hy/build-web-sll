@@ -8,6 +8,11 @@ export interface IWebContent {
   link: string
 }
 
+export interface ITheme {
+  name: string
+  fileName: string
+}
+
 export interface IWebSeoInfo {
   title: string
   description: string

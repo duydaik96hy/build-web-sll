@@ -5,6 +5,7 @@ html {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  background: url('@/assets/bg.png') top left repeat;
 }
 
 div {
@@ -179,8 +180,6 @@ li {
 
 .main-bg {
   background: url('@/assets/bg.png') top left repeat;
-  padding: 10px;
-  border-radius: 10px;
 }
 
 .btn-2 {

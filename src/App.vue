@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import { ref, watch, getCurrentInstance } from 'vue'
 import { useRoute } from 'vue-router'
+import ILogin from './components/ILogin.vue'
 
 const router = useRoute()
 const { proxy } = getCurrentInstance()
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const activeRouter: any = ref('base-setting')
-const needLogin = ref(false)
+const needLogin = ref(true)
 const showSettingsDialog = ref(false)
 const hideSelect = ref(false)
 
@@ -30,13 +31,13 @@ watch(router, (o, n) => {
 </script>
 
 <template>
-  <div>
-    <!-- <Login @loginSuccess="needLogin = false" v-if="needLogin"></Login> -->
+  <div class="main-bg">
+    <ILogin @loginSuccess="needLogin = false" v-if="needLogin"></ILogin>
     <!-- // -->
-    <div class="main">
+    <div class="main" v-else>
       <div class="base left">
         <div style="text-align: center; margin-bottom: 50px">
-          <img src="@/assets/logo.svg" width="100" />
+          <img src="@/assets/logo.png" width="200px" />
         </div>
         <ul>
           <li
@@ -202,12 +203,11 @@ input {
   .right {
     height: 100%;
     position: relative;
-    background: url('@/assets/bg.png') top left repeat;
   }
   .left {
     width: 300px;
     margin-right: 20px;
-
+    background: url('@/assets/bg.png') top left repeat;
     li {
       text-transform: capitalize;
     }
@@ -247,6 +247,7 @@ input {
   }
   .right {
     width: calc(100% - 320px);
+    background-color: #f3f6fb;
     padding: 0;
     overflow: hidden;
     &::-webkit-scrollbar {
