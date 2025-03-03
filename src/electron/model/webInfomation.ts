@@ -39,7 +39,7 @@ export interface IWebInfomation {
   contact: {
     phone: string
     email: string
-    companyName?: string
+    company?: string
   }
   proxy: IProxy
 }

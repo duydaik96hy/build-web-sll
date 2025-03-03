@@ -6,9 +6,32 @@ import { Store } from '../stores'
 const store = Store()
 
 const baseSettings = ref<IBaseSettings>(store.baseSetting)
-const ipList = ref<Array<Array<string>>>([])
+if (store.userInfo) {
+  baseSettings.value.btInfo = store.userInfo.btInfo
+}
+const ipList = ref<Array<Array<string | unknown>>>(initIpList(baseSettings.value.btInfo.ipList))
+const timeout = ref<NodeJS.Timeout>()
+
+function initIpList(list: Array<Array<string>>) {
+  const returnList: Array<Array<string>> = []
+  list.forEach((x) => {
+    if (x.length != 1) {
+      const firstIp = x[0].split('.')
+      const lastIp = x[x.length - 1].split('.')
+      const mergeIp = [...x.slice(0, 3), firstIp[3], lastIp[3]]
+      returnList.push(mergeIp)
+    } else {
+      returnList.push(x[0].split('.'))
+    }
+  })
+  return returnList
+}
 const addIp = () => {
   ipList.value.push(Array.from({ length: 5 }))
+}
+
+const save = () => {
+  store.editBaseSetting(baseSettings.value)
 }
 const ipFormat = (value: string) => {
   let n = value.replace(/\D/, '')
@@ -16,13 +39,11 @@ const ipFormat = (value: string) => {
   return n
 }
 
-const timeout = ref<NodeJS.Timeout>()
-
-watch(ipList.value, (n) => {
-  const list: Array<string> = []
+watch(ipList.value, (n: Array<Array<string | unknown>>) => {
+  const list: Array<Array<string>> = []
   clearTimeout(timeout.value)
   timeout.value = setTimeout(() => {
-    n.forEach((x) => {
+    n.forEach((x: Array<string | unknown>) => {
       let flag = true
       x.forEach((i, k) => {
         if (k < 3 && !i) flag = false
@@ -30,13 +51,15 @@ watch(ipList.value, (n) => {
       if (flag) {
         if (!!x[4]) {
           const length: number = Number(x[4]) - Number(x[3])
+          const childList: Array<string> = []
           Array.from({ length: Math.abs(length) + 1 }).forEach((i, k) => {
-            list.push(
+            childList.push(
               [...x.slice(0, 3), length > 0 ? Number(x[3]) + k : Number(x[3]) - k].join('.'),
             )
           })
+          list.push(childList)
         } else {
-          list.push(x.slice(0, 4).join('.'))
+          list.push([x.slice(0, 4).join('.')])
         }
       }
     })
@@ -114,7 +137,7 @@ watch(ipList.value, (n) => {
       <button class="btn-3" @click="addIp">{{ $t('addIp') }}</button>
     </div>
     <div class="f-c action-btn">
-      <button class="btn-3">{{ $t('save') }}</button>
+      <button class="btn-3" @click="save">{{ $t('save') }}</button>
     </div>
   </div>
 </template>

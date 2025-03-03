@@ -1,11 +1,38 @@
 import { join, resolve } from 'path'
-import { app, BrowserWindow, screen } from 'electron'
-import { existsSync, mkdirSync } from 'fs'
+import { app, BrowserWindow, ipcMain, screen } from 'electron'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs'
+import { IBaseSettings, IUser } from './model/baseSetiings'
 
 const isDev = !app.isPackaged
 const defaultDir = app.isPackaged
   ? app.getPath('userData')
   : resolve(process.cwd(), './src/electron/data')
+let win: BrowserWindow | null = null
+
+interface IData {
+  userInfo: IUser | null
+  token: string
+  baseSetting: IBaseSettings
+}
+
+let data: IData = {
+  userInfo: null,
+  token: '',
+  baseSetting: {
+    btInfo: {
+      ipList: [],
+      link: '',
+      userName: '',
+      password: '',
+    },
+    themeList: [],
+    loginInfo: {
+      username: '',
+      password: '',
+      rememberPwd: false,
+    },
+  },
+}
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -24,10 +51,18 @@ function createWindow() {
   } else {
     mainWindow.loadFile(join(__dirname, '../../index.html'))
   }
+  return mainWindow
 }
 
 if (!existsSync(join(defaultDir, 'config'))) {
   mkdirSync(join(defaultDir, 'config'))
+  writeFileSync(join(defaultDir, `/config/data.txt`), JSON.stringify(data))
+} else {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const d: any = readFileSync(join(defaultDir, `/config/data.txt`))
+  if (d) {
+    data = JSON.parse(d)
+  }
 }
 
 if (!existsSync(join(defaultDir, 'themes'))) {
@@ -39,14 +74,27 @@ if (!existsSync(join(defaultDir, 'chrome'))) {
 }
 
 app.whenReady().then(() => {
-  createWindow()
+  win = createWindow()
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
-})
 
+  ipcMain.on('init-data', () => {
+    sendToClient('init-data', data)
+  })
+  ipcMain.on('edit-info', (e, info) => {
+    console.log(info)
+    data[info.type as keyof IData] = JSON.parse(info.data)
+    writeFileSync(join(defaultDir, `/config/data.txt`), JSON.stringify(data))
+  })
+})
+//s
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
+
+function sendToClient(channel: string, data: unknown) {
+  win?.webContents.send(channel, data)
+}

@@ -6,6 +6,7 @@ import 'element-plus/dist/index.css'
 import App from './App.vue'
 import router from './router'
 import i18n from './i18n'
+import http from './http'
 
 const app = createApp(App)
 
@@ -31,6 +32,10 @@ app.config.globalProperties.$notification = (type: INotificationType, message: s
           ? 'error-notify'
           : 'warning-notify',
   })
+}
+
+app.config.globalProperties.$http = (type: 'POST' | 'GET', url: string, data) => {
+  return http({ type, data, url })
 }
 
 app.use(createPinia())

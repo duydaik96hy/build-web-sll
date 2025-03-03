@@ -1,0 +1,25 @@
+buildwebadmindb
+eyJhbGciOiJHI2yk9eHAiOjE3MTg4OTM0MTZ9bIdCIUzI1NiIsInR5cCI6IkpXVCJ9eyJ1c2VybmFtZSI6ImFkasNuX1eDK2eZWxlIiwiaWF0IjoxNzE4ODkxNjE2LCJl
+# App
+APP_NAME=land-post
+APP_PORT=3333
+APP_ROUTE_PREFIX=
+JWT_SECRET=asasksdnqwhgeqwgasj!@131212dwuwyuewehu
+JWT_EXPIRE_IN='24h'
+APP_URL=http://localhost:3333
+
+
+# MongoDB
+MONGOOSE_PATH=mongodb://buildwebadmindb:eyJhbGciOiJHI2yk9eHAiOjE3MTg4OTM0MTZ9bIdCIUzI1NiIsInR5cCI6IkpXVCJ9eyJ1c2VybmFtZSI6ImFkasNuX1eDK2eZWxlIiwiaWF0IjoxNzE4ODkxNjE2LCJl@127.0.0.1:27017/
+MONGOOSE_USERNAME=
+MONGOOSE_PASSWORD=
+
+
+# Path
+CONTROLLERS_DIR=/api/controllers/**/*Controller{.ts,.js}
+CRON_JOBS_DIR=/api/cron-jobs/**/*Job{.ts,.js}
+MIDDLEWARES_DIR=/infrastructure/middlewares/**/*{.ts,.js}
+SUBSCRIBERS_DIR=/api/subscribers/**/*Subscriber{.ts,.js}
+EVENTS_DIR=/api/events/**/*{.ts,.js}
+
+db.createUser({"user": "plscadminmanagedb","pwd": "eyJhbGciOiJHI2yk9eHAiOjE3MTg4OTM0MTZ9bIdCIUzI1NiIsInR5cCI6IkpXVCJ9eyJ1c2VybmFtZSI6ImFkasNuX1eDK2eZWxlIiwiaWF0IjoxNzE4ODkxNjE2LCJl",  roles: [ "root"]})

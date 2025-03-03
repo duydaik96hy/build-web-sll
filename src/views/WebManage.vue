@@ -75,7 +75,7 @@ const addWebContent = () => {
       </thead>
       <tbody>
         <tr v-for="(item, index) in list" :key="index">
-          <td>{{ item.name }}</td>
+          <td>{{ item.hostName }}</td>
           <td>
             <button class="btn-3">{{ $t('edit') }}</button>
             <button class="btn-4">{{ $t('delete') }}</button>
@@ -195,9 +195,9 @@ const addWebContent = () => {
             <el-input v-model="newWeb.contact.company" placeholder="Tên công ty" />
           </el-form-item>
           <el-form-item label="Proxy">
-            <el-input v-model="newWeb.contact.url" placeholder="Url" />
-            <el-input v-model="newWeb.contact.userName" placeholder="Username" />
-            <el-input v-model="newWeb.contact.password" placeholder="Password" />
+            <el-input v-model="newWeb.proxy.url" placeholder="Url" />
+            <el-input v-model="newWeb.proxy.userName" placeholder="Username" />
+            <el-input v-model="newWeb.proxy.password" placeholder="Password" />
           </el-form-item>
         </el-form>
       </div>

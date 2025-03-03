@@ -45,12 +45,13 @@ const isFocus = ref(false)
     user-select: none;
     transition: all 0.15s linear;
     background: #ffffff;
-    padding: 0px 5px;
+    padding: 2px 5px;
+    display: inline-block;
     color: gray;
   }
   .user-select {
     top: 0;
-    border: 1px solid blueviolet;
+    border: 1px solid var(--el-color-primary);
     border-bottom-width: 0;
     border-radius: 6px;
     color: black;
@@ -62,7 +63,7 @@ const isFocus = ref(false)
   input {
     transition: all linear 0.15s;
     &:focus {
-      border: 1px solid blueviolet;
+      border: 1px solid var(--el-color-primary);
     }
   }
 }

@@ -8,6 +8,10 @@ html {
   background: url('@/assets/bg.png') top left repeat;
 }
 
+:root {
+  --el-color-primary: #e54d42 !important;
+}
+
 div {
   box-sizing: border-box;
   position: relative;
@@ -237,6 +241,8 @@ textarea {
   outline: none;
   width: 100%;
   max-width: 100%;
+  display: inline-block;
+  box-sizing: border-box;
   font-family: 'Bahnschrift', 'Times New Roman', Times, serif, 'Courier New', Courier, monospace;
 }
 
@@ -376,6 +382,24 @@ input[type='password'] {
 
 .el-radio__label {
   width: 100% !important;
+}
+
+.el-checkbox {
+  --el-checkbox-font-size: 20px;
+  --el-checkbox-input-height: 20px;
+  --el-checkbox-input-width: 20px;
+}
+.el-checkbox--large {
+  .el-checkbox__inner {
+    width: 20px !important;
+    height: 20px !important;
+    &::after {
+      height: 10px;
+      width: 6px;
+      left: 5px;
+      top: 2px;
+    }
+  }
 }
 
 * {

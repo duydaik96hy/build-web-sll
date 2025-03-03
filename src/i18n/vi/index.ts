@@ -24,4 +24,7 @@ export default {
   contentLink: 'Link đến',
   hostName: 'Tên miền',
   logo: 'Logo',
+  rememberPwd: 'Nhớ mật khẩu',
+  loginSuccess: 'Đăng nhập thành công !',
+  loginError: 'Đăng nhập thất bại, vui lòng kiểm tra lại tài khoản mật khẩu hoặc thử lại sau !',
 }

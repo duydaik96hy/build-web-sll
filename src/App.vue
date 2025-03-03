@@ -1,14 +1,25 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script lang="ts" setup>
 import { ref, watch, getCurrentInstance } from 'vue'
-import { useRoute } from 'vue-router'
-import ILogin from './components/ILogin.vue'
+import { useRoute, useRouter } from 'vue-router'
+import { Store } from './stores'
 
-const router = useRoute()
+const route = useRoute()
+const router = useRouter()
 const { proxy } = getCurrentInstance()
+const store = Store()
+const win: any = window
+if (win && win.api) {
+  win.api.send('init-data')
+  win.api.receive('init-data', (data: any) => {
+    store.initData(data)
+    if (!data.token) {
+      router.replace({ name: 'Login' })
+    }
+  })
+}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const activeRouter: any = ref('base-setting')
-const needLogin = ref(true)
 const showSettingsDialog = ref(false)
 const hideSelect = ref(false)
 
@@ -25,16 +36,15 @@ const navMenu = ref([
   },
 ])
 const isFirst = ref(false)
-watch(router, (o, n) => {
+watch(route, (o, n) => {
   activeRouter.value = n.name
 })
 </script>
 
 <template>
   <div class="main-bg">
-    <ILogin @loginSuccess="needLogin = false" v-if="needLogin"></ILogin>
     <!-- // -->
-    <div class="main" v-else>
+    <div class="main">
       <div class="base left">
         <div style="text-align: center; margin-bottom: 50px">
           <img src="@/assets/logo.png" width="200px" />

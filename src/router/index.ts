@@ -13,6 +13,11 @@ const router = createRouter({
       name: 'web-manage',
       component: () => import('../views/WebManage.vue'),
     },
+    {
+      path: '/login',
+      name: 'Login',
+      component: () => import('../views/Login.vue'),
+    },
   ],
 })
 
