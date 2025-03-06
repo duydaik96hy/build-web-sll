@@ -1,3 +1,14 @@
+export enum IMethodType {
+  Post = 'Post',
+  Get = 'Get',
+  Patch = 'Patch',
+}
+
+export enum IApiUrl {
+  login = '/authentications/login',
+  editUserInfo = '/users/',
+}
+
 export interface IBaseSettings {
   btInfo: {
     link: string
@@ -14,6 +25,7 @@ export interface IBaseSettings {
 }
 
 export interface IUser {
+  id?: string
   name: string
   email: string
   password: string

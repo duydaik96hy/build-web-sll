@@ -1,8 +1,11 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
-import { IBaseSettings } from '../electron/model/baseSetiings'
+import { ref, watch, getCurrentInstance } from 'vue'
+import { IApiUrl, IBaseSettings, IMethodType } from '../electron/model/baseSetiings'
 import { Store } from '../stores'
 
+const instance = getCurrentInstance()
+const proxy: any = instance?.proxy
 const store = Store()
 
 const baseSettings = ref<IBaseSettings>(store.baseSetting)
@@ -30,8 +33,11 @@ const addIp = () => {
   ipList.value.push(Array.from({ length: 5 }))
 }
 
-const save = () => {
+const save = async () => {
   store.editBaseSetting(baseSettings.value)
+  await proxy?.$http(IMethodType.Patch, IApiUrl.editUserInfo + '/' + store.userInfo?.id, {
+    btInfo: baseSettings.value.btInfo,
+  })
 }
 const ipFormat = (value: string) => {
   let n = value.replace(/\D/, '')

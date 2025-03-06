@@ -6,7 +6,7 @@
   "main": "dist/electron/main.js",
   "scripts": {
     "watch": "tsc -w",
-    "start": "concurrently \"tsc -w\" vite \"nodemon --ignore src/electron/data/** --ignore dist/** --exec electron .",
+    "start": "concurrently \"tsc -w\" vite \"nodemon --ignore src/electron/data/** --exec electron .",
     "start-test": "concurrently vite \"electron .\"",
     "vite:build": "vite build",
     "build": "vite build && electron-builder --win --x64",

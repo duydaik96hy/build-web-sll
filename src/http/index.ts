@@ -2,10 +2,7 @@ import axios from 'axios'
 import router from '../router'
 import { Store } from '../stores'
 
-axios.defaults.baseURL =
-  window.location.hostname == 'localhost'
-    ? 'http://localhost:3333'
-    : `http://${window.location.hostname}:3333`
+axios.defaults.baseURL = `http://155.159.255.140:3000/api/`
 
 export default async function http(obj) {
   const paramsData = { ...obj.data }

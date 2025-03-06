@@ -44,15 +44,22 @@ async function launchBt(baseSetiings: IBaseSettings) {
       await timeout(1000)
     }
     await page.type('input[name="username"]', baseSetiings.btInfo.userName)
+    await timeout(100)
     await page.type('input[name="password"]', baseSetiings.btInfo.password)
-    await page.click("input[id='login-button']")
-    await page.waitForNetworkIdle()
+    await timeout(100)
+    await page.click("button[class='login-form-button login-submit']")
+    await page.waitForNavigation()
   }
   await page.close()
   return browser
 }
 
-export async function createNewWeb(baseSetiings: IBaseSettings, hostName: string) {
+export async function createNewWeb(
+  baseSetiings: IBaseSettings,
+  hostName: string,
+  ip: string,
+  proxy?: string,
+) {
   try {
     const btUrl = baseSetiings.btInfo.link
     const defaultBtUrl = 'http://' + btUrl.replace('http://', '').split('/')[0]
@@ -63,37 +70,63 @@ export async function createNewWeb(baseSetiings: IBaseSettings, hostName: string
       timeout: 300000,
     })
 
-    await page.click('button[title=添加站点]')
+    await page.click(
+      '#layout-main >div >div:nth-child(2) >div >div >div >div.flex.justify-between.flex-wrap >div:nth-child(1) >div:nth-child(1) > button.el-button.el-button--primary',
+    )
     await timeout(1000)
-    await page.click('body form textarea[name=webname]')
+    await page.click('#pane-domain >div >div.flex.items-end >div >div textarea')
     await timeout(1000)
     await page.keyboard.type(hostName, { delay: 10 })
     await timeout(1000)
-    await page.click('body div.layui-layer-btn.layui-layer-btn- a.layui-layer-btn0')
-    await timeout(5000)
-    await page.goto(defaultBtUrl + '/site', {
-      waitUntil: 'networkidle2',
-      timeout: 300000,
-    })
-
-    await timeout(2000)
-
-    await page.click('body div[id=bt_site_table] table tbody tr:nth-child(1) td:nth-child(2) a')
-    await timeout(2000)
-    await page.waitForSelector(
-      'body >div > div.layui-layer-content > div > div.bt-w-menu.site-menu.pull-left >p:nth-child(11)',
-      { timeout: 5000 },
-    )
+    await page.click('#pane-domain >div >div.flex.items-end >button')
+    await timeout(3000)
+    await page.keyboard.press('Escape')
+    await timeout(1000)
+    await page.click('#tab-ssl')
+    await timeout(1000)
+    await page.click('#tab-letsEncryptList')
+    await timeout(1000)
     await page.click(
-      'body >div > div.layui-layer-content > div > div.bt-w-menu.site-menu.pull-left >p:nth-child(11)',
+      '#pane-letsEncryptList > div > div > div.flex.justify-between.flex-wrap > div:nth-child(1) > button',
     )
     await timeout(1000)
-    await page.click('#ssl_tabs >span:nth-child(4)')
+    await page.click('form > div:nth-child(2) > div > div > label > span.el-checkbox__input')
+
     await timeout(1000)
-    await page.click('#ymlist li:nth-child(2) input')
+    await page.click('form > div:nth-child(3) > div.el-form-item__content > button')
     await timeout(1000)
-    await page.click('#webedit-con > div.tab-con > div:nth-child(3) > div > button')
-    await timeout(1000)
+    if (proxy) {
+      await page.goto(defaultBtUrl + '/site', {
+        waitUntil: 'networkidle2',
+        timeout: 300000,
+      })
+      await timeout(300)
+      await page.click(
+        '#layout-main >div >div:nth-child(2) >div >div >div >div.flex.justify-between.flex-wrap >div:nth-child(1) >div:nth-child(1) > button.el-button.el-button--primary',
+      )
+      await timeout(300)
+      await page.click('#tab-proxy')
+      await timeout(1300)
+      await page.click(
+        '#pane-proxy > div > div > div.flex.justify-between.flex-wrap > div:nth-child(1) > button',
+      )
+      await timeout(300)
+      await page.click('form > div:nth-child(2) > div > div > div:nth-child(1)')
+      await timeout(300)
+      await page.keyboard.type(hostName)
+      await timeout(300)
+      await page.click('form > div:nth-child(3) > div > div > div:nth-child(1)')
+      await timeout(300)
+      await page.keyboard.type(ip + ':' + proxy, { delay: 30 })
+      await timeout(300)
+      await page.keyboard.press('Tab')
+      await timeout(300)
+      await page.keyboard.type('$host')
+      await timeout(300)
+      await page.click(
+        '#dialogBox > div > div > div > div > footer > div > div > button:nth-child(2)',
+      )
+    }
     await page.close()
   } catch (error) {
     console.log(error)

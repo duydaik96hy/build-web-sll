@@ -14,7 +14,7 @@ interface IData {
   token: string
   baseSetting: IBaseSettings
 }
-
+//
 let data: IData = {
   userInfo: null,
   token: '',
